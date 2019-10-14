@@ -1,0 +1,14 @@
+INSERT INTO 
+	CUSTOMERS (CUSTOMER_ID,CUSTOMER_NAME,EMAIL,ADDRESS,CURRENCY)
+VALUES
+  	(1,'TEST1', 'test1@gmail.com',null,'INR'),
+  	(2,'TEST2', 'test2@gmail.com',null,'USD'),
+  	(3,'TEST3', 'test3@gmail.com',null,'INR');
+
+INSERT INTO
+	ORDERS (ORDER_ID,DESCRIPTION,QUANTITY,PRICE,CUSTOMER_ID)
+VALUES
+  	(1,'TEST1', '10',10,2),
+  	(2,'TEST2', '20',10,1),
+  	(3,'TEST3', '30',10,1);
+
