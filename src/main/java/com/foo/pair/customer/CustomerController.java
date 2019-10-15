@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -37,10 +35,10 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> createCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customerDTO) {
         CustomerDTO createdCustomerDTO = customerService.createCustomer(customerId, customerDTO);
         //TODO : return created uri
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(PATH_ID_URL)
-                .buildAndExpand(createdCustomerDTO.getCustomerId())
-                .toUri();
+//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path(PATH_ID_URL)
+//                .buildAndExpand(createdCustomerDTO.getCustomerId())
+//                .toUri();
         return ResponseEntity.ok(createdCustomerDTO);
     }
 

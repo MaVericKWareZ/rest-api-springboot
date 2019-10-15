@@ -1,11 +1,10 @@
 package com.foo.pair.customer;
 
+import com.foo.pair.exception.BadRequestException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,20 +23,20 @@ public class CustomerService {
     }
 
     public CustomerDTO findCustomerById(Integer customerId) {
-        return customerMapper.map(customerRepository.findById(customerId).orElseThrow(EntityNotFoundException::new));
+        return customerMapper.map(customerRepository.findById(customerId).orElseThrow(() -> new BadRequestException("Customer Not found with customerId = " + customerId)));
     }
 
-    public CustomerDTO createCustomer(Integer customerId, CustomerDTO customer) {
+    public CustomerDTO createCustomer(Integer customerId, CustomerDTO customer) throws BadRequestException {
         Optional<Customer> result = customerRepository.findById(customerId);
         if (result.isPresent()) {
-            throw new EntityExistsException();
+            throw new BadRequestException(String.format("Customer with customerId: %o already exsists", customerId));
         }
         log.info("Created customer , customerId = " + customerId);
         return customerMapper.map(customerRepository.save(customerMapper.map(customer)));
     }
 
     public CustomerDTO updateCustomer(Integer customerIdToUpdate, CustomerDTO updatedCustomerDTO) {
-        Customer customerToUpdate = customerRepository.findById(customerIdToUpdate).orElseThrow(EntityNotFoundException::new);
+        Customer customerToUpdate = customerRepository.findById(customerIdToUpdate).orElseThrow(() -> new BadRequestException("Customer Not found with customerId = " + customerIdToUpdate));
         if (Objects.nonNull(customerToUpdate)) {
             customerToUpdate = customerMapper.map(updatedCustomerDTO);
             return customerMapper.map(customerRepository.save(customerToUpdate));
@@ -47,7 +46,7 @@ public class CustomerService {
     }
 
     public CustomerDTO deleteCustomer(Integer customerId) {
-        Customer customerToDelete = customerRepository.findById(customerId).orElseThrow(EntityNotFoundException::new);
+        Customer customerToDelete = customerRepository.findById(customerId).orElseThrow(() -> new BadRequestException("Customer Not found with customerId = " + customerId));
         customerRepository.delete(customerToDelete);
         log.info("Deleted customer , customerId = " + customerId);
         return customerMapper.map(customerToDelete);

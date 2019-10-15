@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN, uses = Order.class)
 public interface OrderMapper {
 
-//    OrderMapper MAPPER = Mappers.getMapper(OrderMapper.class);
-
     OrderDTO map(Order source);
 
     @InheritInverseConfiguration

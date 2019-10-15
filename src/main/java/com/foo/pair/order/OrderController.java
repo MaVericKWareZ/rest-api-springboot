@@ -2,16 +2,12 @@ package com.foo.pair.order;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -33,27 +29,16 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @PostMapping("/order/{orderId}")
-    public ResponseEntity<OrderDTO> createOrder(@PathVariable Integer orderId, @RequestBody OrderDTO orderDTO) {
-        OrderDTO createdOrderDTO = orderService.createOrder(orderId, orderDTO);
-        //TODO : return created uri
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(PATH_ID_URL)
-                .buildAndExpand(createdOrderDTO.getOrderId())
-                .toUri();
-        return ResponseEntity.ok(createdOrderDTO);
+    @GetMapping("/orders/customer/{customerId}")
+    public ResponseEntity<List<OrderDTO>> findOrdersForCustomer(@PathVariable Integer customerId) {
+        List<OrderDTO> orderDTOList = orderService.findOrdersByCustomerId(customerId);
+        return ResponseEntity.ok(orderDTOList);
     }
 
-    @PutMapping("/order/{orderId}")
-    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Integer orderId, @RequestBody OrderDTO orderDTO) {
-        OrderDTO updatedOrderDTO = orderService.updateOrder(orderId, orderDTO);
-        return ResponseEntity.ok(updatedOrderDTO);
-    }
-
-    @DeleteMapping("/order/{orderId}")
-    public ResponseEntity<OrderDTO> deleteOrder(@PathVariable Integer orderId) {
-        OrderDTO deletedOrderDTO = orderService.deleteOrder(orderId);
-        return ResponseEntity.ok(deletedOrderDTO);
+    @PostMapping("/orders/customer/{customerId}")
+    public ResponseEntity<OrderDTO> createOrderForCustomer(@PathVariable Integer customerId, @RequestBody OrderDTO orderDTO) {
+        OrderDTO createdOrder = orderService.createOrderForCustomer(customerId, orderDTO);
+        return ResponseEntity.ok(createdOrder);
     }
 
 

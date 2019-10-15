@@ -3,7 +3,6 @@ package com.foo.pair.customer;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -11,8 +10,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN, uses = Customer.class)
 public interface CustomerMapper {
-
-    CustomerMapper MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     CustomerDTO map(Customer source);
 

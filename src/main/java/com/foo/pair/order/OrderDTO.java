@@ -13,11 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderDTO {
 
-    private Integer orderId;
+    public Integer orderId;
 
-    private String description;
+    public String description;
 
-    private Integer quantity;
+    public Integer quantity;
 
-    private Integer price;
+    public Integer price;
 }
